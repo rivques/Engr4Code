@@ -19,19 +19,26 @@ def checkedSleep(length):
             return True
     return False
 
-while button.value:
+while button.value: # wait for button press
     pass
 
 for i in range(10, 0, -1): # countdown
     print(i)
     red.value = True
-    if checkedSleep(.2):
-        print("ABORT!")
-        break
+    if i == 10: # give time to release the button
+        time.sleep(.2)
+    else:
+        if checkedSleep(.2):
+            print("ABORT!")
+            break
+
     red.value = False
-    if checkedSleep(.8):
-        print("ABORT!")
-        break
+    if i == 10: # give time to release the button
+        time.sleep(.8)
+    else:
+        if checkedSleep(.8): # give time to release the button
+            print("ABORT!")
+            break
 else:
     green.value = True #launch
     print("Liftoff!")

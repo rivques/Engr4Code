@@ -54,19 +54,8 @@ def get_area(p1, p2, p3): # adapted from https://stackoverflow.com/questions/595
                   * (p1[1] - p2[1]))
     return abs(area)
 
-while True:
-    vertex_1 = validate_input(input("Please input three triangle vertices in x,y format. Vertex 1: ")) # this is a little bit repetitive but i want to use continue here
-    if not vertex_1:
-        print("That was not the proper format. Please try again.")
-        continue
-    vertex_2 = validate_input(input("Vertex 2: "))
-    if not vertex_2:
-        print("That was not the proper format. Please try again.")
-        continue
-    vertex_3 = validate_input(input("Vertex 3: "))
-    if not vertex_3:
-        print("That was not the proper format. Please try again.")
-        continue
+def do_triangle(vertex_1, vertex_2, vertex_3):
+    global landing_area_display
     area = get_area(vertex_1, vertex_2, vertex_3)
     print(f"The area of the triangle with vertices ({vertex_1[0]},{vertex_1[1]}), ({vertex_2[0]},{vertex_2[1]}), ({vertex_3[0]},{vertex_3[1]}) is {area} square km.")
     area_label.text = f"{area:.2f}km2" # set the text that shows on the display
@@ -74,4 +63,27 @@ while True:
         splash.pop()
     landing_area_display = Triangle(int(vertex_1[0])+64, 32-int(vertex_1[1]), int(vertex_2[0])+64, 32-int(vertex_2[1]), int(vertex_3[0])+64, 32-int(vertex_3[1]), outline=0xFFFFFF)
     splash.append(landing_area_display) # show this triangle
+    return area
 
+input_triangles = [['-50,-17','-57,12','-22,-7'],['28,-14','60,-7','54,18'],['45,30','51,-1','18,6'],['5,5','19,15','22,10']]
+triangle_areas = {}
+largest_area = 0
+
+for i, input_triangle in enumerate(input_triangles):
+    vertexes = []
+    for j, point_str in enumerate(input_triangle):
+        vertexes.append(validate_input(point_str))
+        if not vertexes[j]:
+            raise ValueError("Error in input! Check that everything is set up properly.")
+    triangle_area = do_triangle(*vertexes)
+    triangle_areas[triangle_area] = vertexes
+    if largest_area < triangle_area:
+        largest_area = triangle_area
+    time.sleep(1)
+
+
+do_triangle(*triangle_areas[largest_area])
+# TODO: Print correct message, calculate centroid
+
+while True:
+    pass # block forever to keep display showing triangle

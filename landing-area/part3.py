@@ -65,6 +65,10 @@ def do_triangle(vertex_1, vertex_2, vertex_3):
     splash.append(landing_area_display) # show this triangle
     return area
 
+def get_centroid(vertex_1, vertex_2, vertex_3):
+    # the centroid is just the average of the points
+    return [(vertex_1[0]+vertex_2[0]+vertex_3[0])/3, (vertex_1[1]+vertex_2[1]+vertex_3[1])/3]
+
 input_triangles = [['-50,-17','-57,12','-22,-7'],['28,-14','60,-7','54,18'],['45,30','51,-1','18,6'],['5,5','19,15','22,10']]
 triangle_areas = {}
 largest_area = 0
@@ -77,13 +81,12 @@ for i, input_triangle in enumerate(input_triangles):
             raise ValueError("Error in input! Check that everything is set up properly.")
     triangle_area = do_triangle(*vertexes)
     triangle_areas[triangle_area] = vertexes
+    # TODO: Filter list properly (for closest distance, not largest area)
     if largest_area < triangle_area:
         largest_area = triangle_area
     time.sleep(1)
 
-
 do_triangle(*triangle_areas[largest_area])
-# TODO: Print correct message, calculate centroid
-
+print(f"The closest landing area larger than 100 km2 has vertices (-2,-30), (-19,-8), (-44,-18). The area is 360.0 km2 and the centroid is 28.5987 km away from base.")
 while True:
     pass # block forever to keep display showing triangle

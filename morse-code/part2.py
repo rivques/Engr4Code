@@ -31,10 +31,10 @@ CHAR_DELAYS = {
 while True:
     user_input = input("Enter the string to translate, or type '-q' to quit. ")
     user_input = user_input.upper()
-    if user_input == "-Q":
+    if user_input == "-Q": # uppercase because of the previous line
         break
     morse_translation = ""
-    translation_good = True
+    translation_good = True # flag to be set if we hit an unknown character
     for letter in user_input:
         if letter == " ":
             morse_translation += "/"
@@ -49,7 +49,7 @@ while True:
         print(morse_translation)
         for pulse in morse_translation:
             on_delay, off_delay = CHAR_DELAYS[pulse]
-            if on_delay == 0:
+            if on_delay == 0: # bypass ever turning the LED on
                 time.sleep(off_delay)
             else:
                 led.value = True
